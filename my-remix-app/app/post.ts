@@ -54,7 +54,7 @@ export async function getPost(slug: string) {
   return {
     slug,
     html,
-    title: attributes.title
+    title: attributes.title,
   }
 }
 

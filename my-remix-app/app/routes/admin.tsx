@@ -19,6 +19,7 @@ export default function Admin() {
         <ul>
           {posts.map(post => (
             <li key={post.slug}>
+              {/* <Link to={post.slug}>{post.title}</Link> */}
               <Link to={post.slug}>{post.title}</Link>
             </li>
           ))}
