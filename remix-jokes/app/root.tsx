@@ -1,5 +1,4 @@
-import { LiveReload, Outlet, LinksFunction, Links } from 'remix';
-import { Links, LiveReload, Outlet, useCatch } from 'remix';
+import { useCatch, LiveReload, Outlet, LinksFunction, Links, MetaFunction, Meta } from 'remix';
 import globalStyleUrl from './styles/global.css';
 import globalMediumStyleUrl from './styles/global-medium.css';
 import globalLargeStyleUrl from './styles/global-large.css';
@@ -12,11 +11,26 @@ export let links: LinksFunction = () => {
   ];
 };
 
+export let meta: MetaFunction = () => {
+  let description = `Learn Remix and laugh at the same time`;
+  return {
+    description,
+    keywords: 'Remix,jokes',
+    'twitter:image': 'https://remix-jokes.lol/social.png',
+    'twitter:card': 'summary_large_image',
+    'twitter:creator': '@remix_run',
+    'twitter:size': '@remix_run',
+    'twitter:title': 'Remix Jokes',
+    'twitter:description': description,
+  };
+};
+
 function Document({ children, title = `Remix: So great, it's funny!` }: { children: React.ReactNode; title?: string }) {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
+        <Meta></Meta>
         <title>Remix: So great, it's funny!'</title>
         <Links></Links>
       </head>
