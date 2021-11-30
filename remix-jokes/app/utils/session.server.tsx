@@ -7,6 +7,13 @@ type LoginForm = {
   password: string;
 };
 
+export async function register({ username, password }: LoginForm) {
+  let passwordHash = await bcrypt.hash(password, 10);
+  return db.user.create({
+    data: { username, passwordHash },
+  });
+}
+
 export async function login({ username, password }: LoginForm) {
   let user = await db.user.findUnique({
     where: { username },
@@ -57,7 +64,7 @@ export async function requireUserId(request: Request, redirectTo: string = new U
   let session = await getUserSession(request);
   let userId = session.get('userId');
   if (!userId || typeof userId !== 'string') {
-    let searchParams = new URLSearchParams([['redirectTo', redirect]]);
+    let searchParams = new URLSearchParams([['redirectTo', redirectTo]]);
     throw new Error(`/login?${searchParams}`);
   }
   return userId;
@@ -86,7 +93,7 @@ export async function logout(request: Request) {
   });
 }
 
-export async function createUserSession(userId: string, redirectTo: string) {
+export async function createUserSession(userId: string, redirectTo: string = '/') {
   let session = await storage.getSession();
   session.set('userId', userId);
   return redirect(redirectTo, {
