@@ -30,7 +30,6 @@ export async function login({ username, password }: LoginForm) {
 }
 
 let sessionSecret = process.env.SESSION_SECRET;
-console.log('session: ', sessionSecret);
 if (!sessionSecret) {
   throw new Error('SESSION_SECRET must be set');
 }
