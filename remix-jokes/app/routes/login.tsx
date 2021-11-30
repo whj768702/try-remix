@@ -2,7 +2,7 @@ import type { ActionFunction, LinksFunction } from 'remix';
 import { useActionData, Link, useSearchParams } from 'remix';
 import stylesUrl from '../styles/login.css';
 import { db } from '~/utils/db.server';
-import { login } from '~/utils/session.server';
+import { createUserSession, login } from '~/utils/session.server';
 
 export let links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: stylesUrl }];
@@ -64,7 +64,8 @@ export let action: ActionFunction = async ({ request }): Promise<Response | Acti
       if (!user) {
         return { fields, formError: 'username/password combination is incorrect.' };
       }
-      return { fields, formError: 'Not implemented' };
+      return createUserSession(user.id, redirectTo);
+      // return { fields, formError: 'Not implemented' };
     }
     case 'register': {
       let userExists = await db.user.findFirst({
