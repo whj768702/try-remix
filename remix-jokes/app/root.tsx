@@ -1,4 +1,5 @@
 import { LiveReload, Outlet, LinksFunction, Links } from 'remix';
+import { Links, LiveReload, Outlet, useCatch } from 'remix';
 import globalStyleUrl from './styles/global.css';
 import globalMediumStyleUrl from './styles/global-medium.css';
 import globalLargeStyleUrl from './styles/global-large.css';
@@ -34,6 +35,20 @@ export default function App() {
     </Document>
   );
 }
+
+export function CatchBoundary() {
+  let caught = useCatch();
+  return (
+    <Document title={`${caught.status} ${caught.statusText}`}>
+      <div className="error-container">
+        <h1>
+          {caught.status} {caught.statusText}
+        </h1>
+      </div>
+    </Document>
+  );
+}
+
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Document title="Uh-oh!">
